@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import projectJava.ecommerce.model.Producto;
 import projectJava.ecommerce.repository.ProductoRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,5 +35,10 @@ public class ProductoServiceImplementacion implements ProductoService{
     public void delete(Integer id) {
         productoRepository.deleteById(id);
 
+    }
+
+    @Override
+    public List<Producto> findAll() {
+        return productoRepository.findAll();
     }
 }
