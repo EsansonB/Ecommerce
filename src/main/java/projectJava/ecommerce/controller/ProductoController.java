@@ -36,19 +36,19 @@ public class ProductoController {
     }
 
     @PostMapping("/save")
-    public String save(Producto producto){
+    public String save(Producto producto) {
         LOGGER.info("Este es el objeto producto {}", producto);
-        Usuario u= new Usuario(1, "", "", "", "", "", "", "");
+        Usuario u = new Usuario(1, "", "", "", "", "", "", "");
         producto.setUsuario(u);
         productoService.save(producto);
         return "redirect:/productos";
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Integer id,Model model) {
-        Producto producto= new Producto();
-        Optional<Producto> optionalProducto= productoService.get(id);
-        producto= optionalProducto.get();
+    public String edit(@PathVariable Integer id, Model model) {
+        Producto producto = new Producto();
+        Optional<Producto> optionalProducto = productoService.get(id);
+        producto = optionalProducto.get();
 
         LOGGER.info("Producto buscado: ()", producto);
         model.addAttribute("producto", producto);
@@ -57,10 +57,16 @@ public class ProductoController {
     }
 
     @PostMapping("/update")
-    public  String update(Producto producto)  {
+    public String update(Producto producto) {
         productoService.update(producto);
         return "redirect:/productos";
     }
-    
-    
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id) {
+        productoService.delete(id);
+        return "redirect:/productos";
+
+    }
+
 }
