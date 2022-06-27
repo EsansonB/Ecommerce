@@ -49,13 +49,13 @@ public class HomeController {
     }
 
     @PostMapping("/cart")
-    public String addcart(@RequestParam Integer id, @RequestParam Integer cantidad, Model model) {
+    public String addCart(@RequestParam Integer id, @RequestParam Integer cantidad, Model model) {
         DetalleOrden detalleOrden= new DetalleOrden();
         Producto producto = new Producto();
         double sumaTotal=0;
         
         Optional<Producto> optionalProducto = productoService.get(id);
-        log.info("producto añadido {} ", optionalProducto.get());
+        log.info("producto añadido: {} ", optionalProducto.get());
         log.info("Cantidad: {}", cantidad);
         producto=optionalProducto.get();
 
@@ -64,18 +64,16 @@ public class HomeController {
         detalleOrden.setNombre(producto.getNombre());
         detalleOrden.setTotal(producto.getPrecio()*cantidad);
         detalleOrden.setProducto(producto);
-        
-        //validar que el producto no se agregue 2 veces
-        Integer idProducto = producto.getId();
-        boolean ingresado= detalles.stream().anyMatch(p -> p.getProducto().getId()==idProducto);
 
-        if(!ingresado) {
+        //validar para que el producto no se agregue más de una vez
+        Integer idPorducto=producto.getId();
+        boolean ingresado=detalles.stream().anyMatch(p -> p.getProducto().getId()==idPorducto);
+
+        if(!ingresado){
             detalles.add(detalleOrden);
         }
 
 
-
-        detalles.add(detalleOrden);
 
         sumaTotal = detalles.stream().mapToDouble(dt->dt.getTotal()).sum();
 
@@ -83,14 +81,11 @@ public class HomeController {
         model.addAttribute("cart", detalles);
         model.addAttribute("orden", orden);
 
-
-
-        
         return "usuario/carrito";
     }
 
     //quitar un producto del carrito
-    @GetMapping("/delete/cart/id")
+    @GetMapping("/delete/cart/{id}")
     public String deleteProductoCart (@PathVariable Integer id, Model model) {
 
         //lista de nuevos productos
@@ -122,6 +117,14 @@ public class HomeController {
         model.addAttribute("cart", detalles);
         model.addAttribute("orden", orden);
         return "/usuario/carrito";
+
+    }
+
+    @GetMapping("/order")
+    public String order() {
+
+
+        return "usuario/resumenorden";
 
     }
 
