@@ -3,19 +3,19 @@ package projectJava.ecommerce.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projectJava.ecommerce.model.Usuario;
-import projectJava.ecommerce.repository.UsuarioRepository;
+import projectJava.ecommerce.repository.IUsuarioRepository;
 
 import java.util.Optional;
 
 @Service
-public class UsuarioServiceImplementación implements UsuarioService {
+public class UsuarioServiceImplementación implements IUsuarioService {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private IUsuarioRepository IUsuarioRepository;
 
 
     @Override
     public Optional<Usuario> findById(Integer id) {
-        return usuarioRepository.findById(id);
+        return IUsuarioRepository.findById(id);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import projectJava.ecommerce.model.Producto;
-import projectJava.ecommerce.service.ProductoService;
+import projectJava.ecommerce.service.IProductoService;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ import java.util.List;
 public class AdministradorController {
 
     @Autowired
-    private ProductoService productoService;
+    private IProductoService IProductoService;
 
     @GetMapping("")
     public String home(Model model){
 
-        List<Producto> productos= productoService.findAll();
+        List<Producto> productos= IProductoService.findAll();
         model.addAttribute("productos", productos);
         return "administrador/home";
     }

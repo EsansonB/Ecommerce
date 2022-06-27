@@ -10,8 +10,8 @@ import projectJava.ecommerce.model.DetalleOrden;
 import projectJava.ecommerce.model.Orden;
 import projectJava.ecommerce.model.Producto;
 import projectJava.ecommerce.model.Usuario;
-import projectJava.ecommerce.service.ProductoService;
-import projectJava.ecommerce.service.UsuarioService;
+import projectJava.ecommerce.service.IProductoService;
+import projectJava.ecommerce.service.IUsuarioService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,9 @@ public class HomeController {
     private final Logger log= LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
-    private ProductoService productoService;
+    private IProductoService IProductoService;
     @Autowired
-    private UsuarioService usuarioService;
+    private IUsuarioService IUsuarioService;
 
     //para almacenar los detalles de la orden
     List<DetalleOrden> detalles=new ArrayList<DetalleOrden>();
@@ -37,7 +37,7 @@ public class HomeController {
     @GetMapping("")
     public String home(Model model) {
 
-        model.addAttribute("productos", productoService.findAll());
+        model.addAttribute("productos", IProductoService.findAll());
         return "usuario/home";
     }
 
@@ -45,7 +45,7 @@ public class HomeController {
     public String productoHome(@PathVariable Integer id, Model model) {
         log.info("Id producto enviado como parámetro {}", id);
         Producto producto = new Producto();
-        Optional<Producto> productoOptional = productoService.get(id);
+        Optional<Producto> productoOptional = IProductoService.get(id);
         producto = productoOptional.get();
 
         model.addAttribute("producto", producto);
@@ -58,7 +58,7 @@ public class HomeController {
         Producto producto = new Producto();
         double sumaTotal=0;
         
-        Optional<Producto> optionalProducto = productoService.get(id);
+        Optional<Producto> optionalProducto = IProductoService.get(id);
         log.info("producto añadido: {} ", optionalProducto.get());
         log.info("Cantidad: {}", cantidad);
         producto=optionalProducto.get();
@@ -127,7 +127,7 @@ public class HomeController {
     @GetMapping("/order")
     public String order(Model model) {
 
-        Usuario usuario= usuarioService.findById(1).get();
+        Usuario usuario= IUsuarioService.findById(1).get();
         model.addAttribute("cart", detalles);
         model.addAttribute("orden", orden);
         model.addAttribute("usuario", usuario);
