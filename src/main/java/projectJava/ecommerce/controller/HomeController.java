@@ -10,12 +10,16 @@ import projectJava.ecommerce.model.DetalleOrden;
 import projectJava.ecommerce.model.Orden;
 import projectJava.ecommerce.model.Producto;
 import projectJava.ecommerce.model.Usuario;
+import projectJava.ecommerce.service.IDetalleOrdenService;
+import projectJava.ecommerce.service.IOrdenService;
 import projectJava.ecommerce.service.IProductoService;
 import projectJava.ecommerce.service.IUsuarioService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -27,6 +31,11 @@ public class HomeController {
     private IProductoService IProductoService;
     @Autowired
     private IUsuarioService IUsuarioService;
+    @Autowired
+    private IOrdenService ordenService;
+    @Autowired
+    private IDetalleOrdenService detalleOrdenService;
+
 
     //para almacenar los detalles de la orden
     List<DetalleOrden> detalles=new ArrayList<DetalleOrden>();
@@ -132,6 +141,41 @@ public class HomeController {
         model.addAttribute("orden", orden);
         model.addAttribute("usuario", usuario);
         return "usuario/resumenorden";
+
+    }
+    //guardar la orden
+    @GetMapping("/saveOrder")
+    public String saveOrder() {
+        Date fechaCreacion = new Date();
+        orden.setFechaCreacion(fechaCreacion);
+        orden.setNumero(ordenService.generarNumeroOrden());
+
+        //Usuario
+        Usuario usuario= IUsuarioService.findById(1).get();
+        orden.setUsuario(usuario);
+        ordenService.save(orden);
+
+        //guardar detalles
+        for (DetalleOrden dt:detalles){
+            dt.setOrden(orden);
+            detalleOrdenService.save(dt);
+
+        }
+
+        //limpiar lista
+        orden = new Orden();
+        detalles.clear();
+
+        return "redirect:/";
+
+    }
+
+    @PostMapping("/search")
+    public String searchProduct(@RequestParam String busqueda, Model model){
+        log.info("Busqueda de producto:  ()", busqueda);
+        List<Producto> productos= IProductoService.findAll().stream().filter(p -> p.getNombre().contains(busqueda)).collect(Collectors.toList());
+        model.addAttribute("productos", productos);
+        return "usuario/home";
 
     }
 

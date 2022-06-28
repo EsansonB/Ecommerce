@@ -20,34 +20,27 @@ public class OrdenServiceImplementacion implements IOrdenService{
         return ordenRepository.save(orden);
     }
 
+
+
+
     @Override
     public List<Orden> findAll() {
         return ordenRepository.findAll();
     }
 
+
     public  String generarNumeroOrden() {
-        int numero=0;
-        String numeroConcatenado="";
-        List<Orden> ordenes = findAll();
+        Integer num=0;
+        String numeroOrden=String.valueOf(num);
+        int numDigitos=numeroOrden.length();//numero de digitos
 
-        List<Integer> numeros = new ArrayList<Integer>();
+        for(int j=numDigitos; j<=9;j++)
+            numeroOrden="0"+numeroOrden; //añadimos los ceros al numerode orden ´numero de orden
 
-        ordenes.stream().forEach(o -> numeros.add(Integer.parseInt(o.getNumero())));
 
-        if(ordenes.isEmpty()) {
-            numero=1;
-        }else{
-            numero=numeros.stream().max(Integer::compare).get();
-            numero++;
-        }
 
-        if(numero<10) { //0000000001
-            numeroConcatenado="000000000" +String.valueOf(numero);
-        }else if (numero<100){
-            numeroConcatenado="00000000" +String.valueOf(numero);
-        }else if (numero<1000) {
-            numeroConcatenado = "0000000" + String.valueOf(numero);
-        }
-        return "numeroConcatenado";
+        return numeroOrden;
     }
+
+
 }
