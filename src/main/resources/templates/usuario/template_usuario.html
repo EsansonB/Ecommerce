@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Spring eCommerce</title>
+  <title> Basket eCommerce</title>
 
 
   <!-- Bootstrap core CSS -->
@@ -25,7 +25,7 @@
   <div th:fragment ="header">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" th:href="@{/}">Spring eCommerce</a>
+        <a class="navbar-brand" th:href="@{/}"> Basket eCommerce</a>
 
         <form class="form-inline my-2 my-lg-0" method="post"
               th:action="@{/search}">
@@ -55,7 +55,7 @@
   <div th:fragment="header-user">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" th:href="@{/}">Spring eCommerce</a>
+        <a class="navbar-brand" th:href="@{/}"> Basket eCommerce</a>
 
         <form class="form-inline my-2 my-lg-0" method="post"
               th:action="@{/search}">
@@ -80,6 +80,7 @@
                    aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" th:href="@{/usuario/compras}">Compras</a>
                 <a class="dropdown-item" th:href="@{/getCart}">Carrito</a>
+                <a class="dropdown-item" th:href="@{/usuario/cerrar}">Salir</a>
               </div>
             </li>
           </ul>
@@ -95,7 +96,7 @@
   <div th:fragment="footer">
     <footer class="py-5 bg-dark">
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Spring eCommerce 2021</p>
+        <p class="m-0 text-center text-white">Copyright &copy;  Basket eCommerce 2022</p>
       </div>
       <!-- /.container -->
     </footer>

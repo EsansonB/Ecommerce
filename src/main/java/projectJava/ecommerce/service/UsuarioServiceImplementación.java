@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import projectJava.ecommerce.model.Usuario;
 import projectJava.ecommerce.repository.IUsuarioRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,6 +14,11 @@ public class UsuarioServiceImplementación implements IUsuarioService {
     @Autowired
     private IUsuarioRepository IUsuarioRepository;
 
+
+    @Override
+    public List<Usuario> findAll() {
+        return IUsuarioRepository.findAll();
+    }
 
     @Override
     public Optional<Usuario> findById(Integer id) {

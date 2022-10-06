@@ -3,10 +3,12 @@ package projectJava.ecommerce.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projectJava.ecommerce.model.Orden;
+import projectJava.ecommerce.model.Usuario;
 import projectJava.ecommerce.repository.IOrdenRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrdenServiceImplementacion implements IOrdenService{
@@ -28,6 +30,14 @@ public class OrdenServiceImplementacion implements IOrdenService{
         return ordenRepository.findAll();
     }
 
+    @Override
+    public Optional<Orden> findById(Integer id) {
+        return ordenRepository.findById(id);
+    }
+
+
+
+
 
     public  String generarNumeroOrden() {
         Integer num=0;
@@ -40,6 +50,11 @@ public class OrdenServiceImplementacion implements IOrdenService{
 
 
         return numeroOrden;
+    }
+
+    @Override
+    public List<Orden> findByUsuario(Usuario usuario) {
+        return ordenRepository.findByUsuario(usuario);
     }
 
 
